@@ -1,0 +1,21 @@
+# Ignore build, install, and log directories
+/build/
+/install/
+/log/
+
+# Ignore other ROS build artifacts
+/workspace/
+/build_isolated/
+
+# Ignore compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Common - Ignore cache files
+.cache/
+*.swp
+
+# System - Ignore system and temporary files
+.DS_Store
+Thumbs.db
