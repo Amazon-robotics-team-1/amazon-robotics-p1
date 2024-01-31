@@ -26,7 +26,7 @@ def generate_launch_description():
     move_group_capabilities = {
         "capabilities": "move_group/ExecuteTaskSolutionCapability"
     }
-    # not sure what ^this is doing.
+    # TODO: Inspect what `move_group_capabilities` does.
 
     # Start the actual move_group node/action server
     run_move_group_node = Node(
