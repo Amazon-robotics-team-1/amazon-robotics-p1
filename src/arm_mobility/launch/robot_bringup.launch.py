@@ -10,7 +10,7 @@ def generate_launch_description():
 
     description_arguments = {
         "robot_ip": "xxx.yyy.zzz.www",
-        "use_fake_hardware": "false",
+        "use_fake_hardware": "true",
         "gripper": "robotiq_2f_85",
         "dof": "6",
     }
@@ -61,7 +61,6 @@ def generate_launch_description():
         executable="static_transform_publisher",
         name="static_transform_publisher",
         output="log",
-        # arguments=["--frame-id", "world", "--child-frame-id", "base_link"],
         arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "base_link"],
     )
 
