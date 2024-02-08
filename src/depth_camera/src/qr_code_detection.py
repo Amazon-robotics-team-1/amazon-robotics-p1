@@ -36,6 +36,3 @@ class QRCodeDetector:
             if cv2.waitKey(delay) & 0xFF == ord("q"):
                 break
         cv2.destroyWindow(window_name)
-
-qr = QRCodeDetector()
-qr.detect_qr_code()
