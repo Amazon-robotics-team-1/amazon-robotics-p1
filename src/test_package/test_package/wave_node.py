@@ -1,47 +1,44 @@
 import rclpy
-import sensor_msgs.msg
-from rclpy.node import Node
-
-
-class MinimalPublisher(Node):
-
-    def __init__(self):
-        super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(sensor_msgs.msg.JointState, 'joint_states', 10)
-        timer_period = 1.0  # seconds
-        self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.i = 1
-
-    def timer_callback(self):
-        msg = sensor_msgs.msg.JointState()
-
-        msg.header.stamp = self.get_clock().now().to_msg()
-        msg.name = ["joint_1", "joint_2", "joint_3", "joint_4", "joint_5", "joint_6", "joint_7", \
-                    "robotiq_85_left_knuckle_joint", "robotiq_85_right_knuckle_joint", "robotiq_85_left_inner_knuckle_joint",\
-                    "robotiq_85_right_inner_knuckle_joint", "robotiq_85_left_finger_tip_joint", "robotiq_85_right_finger_tip_joint"]
-        
-        msg.position = [0, self.i*0.6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        msg.effort =  []
-        msg.velocity = []
-
-        self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.position)
-        self.i *= -1
-
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from std_msgs.msg import Header
+from time import sleep
 
 def main(args=None):
-    rclpy.init(args=args)
+    rclpy.init()
 
-    minimal_publisher = MinimalPublisher()
+    node = rclpy.create_node('minimal_publisher')
+    publisher = node.create_publisher(JointTrajectory, '/joint_trajectory_controller/joint_trajectory', 10)
 
-    rclpy.spin(minimal_publisher)
+    # Create JointTrajectory message
+    trajectory_msg = JointTrajectory()
+    trajectory_msg.header = Header()
 
-    # Destroy the node explicitly
-    # (optional - otherwise it will be done automatically
-    # when the garbage collector destroys the node object)
-    minimal_publisher.destroy_node()
+    # Set joint name
+    trajectory_msg.joint_names = ["joint_1", "joint_2", "joint_3", "joint_4", "joint_5", "joint_6"]
+    
+    while rclpy.ok():
+        initial_point = JointTrajectoryPoint()
+        initial_point.positions = [0, 0.6, 0, 0, 0, 0]
+        initial_point.time_from_start.sec = 0
+        trajectory_msg.points = [initial_point]
+
+        target_point = JointTrajectoryPoint()
+        target_point.positions = [0, -0.6, 0, 0, 0, 0]
+        target_point.time_from_start.sec = 4  # Time to reach the target position
+        trajectory_msg.points.append(target_point)
+
+        target_point = JointTrajectoryPoint()
+        target_point.positions = [0, 0.6, 0, 0, 0, 0]
+        target_point.time_from_start.sec = 8  # Time to reach the target position
+        trajectory_msg.points.append(target_point)
+
+        # Publish the trajectory message
+        publisher.publish(trajectory_msg)
+
+        sleep(10)  # Adjust the sleep duration based on the desired wave frequency
+    
+    node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
