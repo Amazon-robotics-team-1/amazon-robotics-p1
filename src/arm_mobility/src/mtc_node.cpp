@@ -28,15 +28,34 @@ class MTCTaskNode {
 
   void setupPlanningScene();
 
+  bool isObjectPositionReceived();
+
  private:
   // Compose an MTC task from a series of stages.
   mtc::Task createTask();
   mtc::Task task_;
   rclcpp::Node::SharedPtr node_;
+
+  rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr object_position_subscriber_;
+  bool object_position_received_;
+  geometry_msgs::msg::Pose received_object_pose_;
+  void objectPositionCallback(const geometry_msgs::msg::Pose::SharedPtr msg);
 };
 
 MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
-  : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) } {}
+  : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }, object_position_received_{ false } {
+    object_position_subscriber_ = node_->create_subscription<geometry_msgs::msg::Pose>("object_3d_pose", 10, std::bind(&MTCTaskNode::objectPositionCallback, this, std::placeholders::_1));
+}
+
+void MTCTaskNode::objectPositionCallback(const geometry_msgs::msg::Pose::SharedPtr msg) {
+  RCLCPP_INFO(LOGGER, "Received object pose");
+  object_position_received_ = true;
+  received_object_pose_ = *msg;
+}
+
+bool MTCTaskNode::isObjectPositionReceived() {
+  return object_position_received_;
+}
 
 rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface() {
   return node_->get_node_base_interface();
@@ -50,10 +69,11 @@ void MTCTaskNode::setupPlanningScene() {
   object.primitives[0].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
   object.primitives[0].dimensions = { 0.1, 0.02 };
 
-  geometry_msgs::msg::Pose pose;
-  pose.position.x = 0.5;
-  pose.position.y = -0.25;
-  object.pose = pose;
+  // geometry_msgs::msg::Pose pose;
+  // pose.position.x = 0.5;
+  // pose.position.y = -0.25;
+  // object.pose = pose;
+  object.pose = received_object_pose_;
 
   moveit::planning_interface::PlanningSceneInterface psi;
   psi.applyCollisionObject(object);
@@ -141,6 +161,10 @@ int main(int argc, char** argv) {
     executor.remove_node(mtc_task_node->getNodeBaseInterface());
   });
 
+  // Wait for the object position to be received
+  while (rclcpp::ok() && !mtc_task_node->isObjectPositionReceived()) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));  // Add a small delay to avoid high CPU usage
+  }
   mtc_task_node->setupPlanningScene();
   mtc_task_node->doTask();
 
