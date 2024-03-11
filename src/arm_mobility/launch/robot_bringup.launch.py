@@ -22,6 +22,7 @@ def launch_setup(context, *args, **kwargs):
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     use_internal_bus_gripper_comm = LaunchConfiguration("use_internal_bus_gripper_comm")
+    vision = LaunchConfiguration("vision")
 
     launch_arguments = {
         "robot_ip": robot_ip,
@@ -32,6 +33,7 @@ def launch_setup(context, *args, **kwargs):
         "gripper_max_velocity": gripper_max_velocity,
         "gripper_max_force": gripper_max_force,
         "use_internal_bus_gripper_comm": use_internal_bus_gripper_comm,
+        "vision": vision,
     }
 
     moveit_config = (
@@ -207,6 +209,13 @@ def generate_launch_description():
             "use_internal_bus_gripper_comm",
             default_value="true",
             description="Use arm's internal gripper connection",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "vision",
+            default_value="true",
+            description="Include camera link",
         )
     )
 
