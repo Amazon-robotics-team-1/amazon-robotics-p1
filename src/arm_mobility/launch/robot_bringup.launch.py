@@ -28,14 +28,14 @@ def launch_setup(context, *args, **kwargs):
         "use_fake_hardware": use_fake_hardware,
         "gripper": "robotiq_2f_85",
         "gripper_joint_name": "robotiq_85_left_knuckle_joint",
-        "dof": "6",
+        "dof": "7",
         "gripper_max_velocity": gripper_max_velocity,
         "gripper_max_force": gripper_max_force,
         "use_internal_bus_gripper_comm": use_internal_bus_gripper_comm,
     }
 
     moveit_config = (
-        MoveItConfigsBuilder("gen3", package_name="kinova_gen3_6dof_robotiq_2f_85_moveit_config")
+        MoveItConfigsBuilder("gen3", package_name="kinova_gen3_7dof_robotiq_2f_85_moveit_config")
         .robot_description(mappings=launch_arguments)
         .planning_pipelines(pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"])
         .to_moveit_configs()
@@ -79,7 +79,7 @@ def launch_setup(context, *args, **kwargs):
 
     # ros2_control using FakeSystem as hardware
     ros2_controllers_path = os.path.join(
-        get_package_share_directory("kinova_gen3_6dof_robotiq_2f_85_moveit_config"),
+        get_package_share_directory("kinova_gen3_7dof_robotiq_2f_85_moveit_config"),
         "config",
         "ros2_controllers.yaml",
     )

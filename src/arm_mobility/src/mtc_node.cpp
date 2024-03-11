@@ -349,7 +349,7 @@ mtc::Task MTCTaskNode::createTask()
   {
     auto stage = std::make_unique<mtc::stages::MoveTo>("return home", sampling_planner);
     stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
-    stage->setGoal("Home");
+    stage->setGoal("home");
     task.add(std::move(stage));
   }
   return task;
