@@ -140,7 +140,7 @@ mtc::Task MTCTaskNode::createTask() {
   // clang-format on
 
   stage_go_home->setGroup(arm_name);
-  stage_go_home->setGoal("Home");
+  stage_go_home->setGoal("home");
   task.add(std::move(stage_go_home));
 
   return task;
