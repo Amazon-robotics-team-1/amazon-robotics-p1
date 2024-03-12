@@ -134,7 +134,7 @@ mtc::Task MTCTaskNode::createTask()
 
   auto stage_open_hand = std::make_unique<mtc::stages::MoveTo>("open hand", sampling_planner);
   stage_open_hand->setGroup(hand_group_name);
-  stage_open_hand->setGoal("open");
+  stage_open_hand->setGoal("Open");
   task.add(std::move(stage_open_hand));
 
   auto stage_move_to_pick = std::make_unique<mtc::stages::Connect>(
@@ -183,7 +183,7 @@ mtc::Task MTCTaskNode::createTask()
       auto stage = std::make_unique<mtc::stages::GenerateGraspPose>("generate grasp pose");
       stage->properties().configureInitFrom(mtc::Stage::PARENT);
       stage->properties().set("marker_ns", "grasp_pose");
-      stage->setPreGraspPose("open");
+      stage->setPreGraspPose("Open");
       stage->setObject("object");
       stage->setAngleDelta(M_PI / 12);
       stage->setMonitoredStage(current_state_ptr);  // Hook into current state
@@ -222,7 +222,7 @@ mtc::Task MTCTaskNode::createTask()
     {
       auto stage = std::make_unique<mtc::stages::MoveTo>("close hand", sampling_planner);
       stage->setGroup(hand_group_name);
-      stage->setGoal("close");
+      stage->setGoal("Close");
       grasp->insert(std::move(stage));
     }
 
@@ -233,6 +233,13 @@ mtc::Task MTCTaskNode::createTask()
       grasp->insert(std::move(stage));
     }
 
+    {
+      // Add stage to allow collision between the object and gripper finger
+    auto stage_allow_collision = std::make_unique<mtc::stages::ModifyPlanningScene>("allow collision object-gripper");
+    stage_allow_collision->allowCollisions("object", {"robotiq_85_left_finger_tip_link"}, true);
+    grasp->insert(std::move(stage_allow_collision));
+    }
+    
     {
   
       auto stage =
