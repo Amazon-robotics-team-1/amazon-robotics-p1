@@ -18,4 +18,11 @@ def generate_launch_description():
         ],
     )
 
-    return LaunchDescription([pick_place_demo])
+    # object detection node
+    object_detector = Node(
+        package="robot_vision_apriltag",
+        executable="image_processor",
+        output="log",
+    )
+
+    return LaunchDescription([object_detector, pick_place_demo])
