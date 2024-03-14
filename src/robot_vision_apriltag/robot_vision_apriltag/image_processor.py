@@ -70,7 +70,7 @@ class ImageProcessor(Node):
             self.logger.warn("No apriltags detected in image stream")
             return
 
-        for tag in tags:  # loop should run once if there's only one apriltag in the image, set self.object_pose
+        for tag in tags:  # loop should run once if there's only one apriltag in the image.
             new_pose = Pose()
             pose_translation = tag.pose_t
             pose_rotation_matrix = tag.pose_R
@@ -110,7 +110,7 @@ class ImageProcessor(Node):
         if self.object_pose != None:
             # transform the pose to robot base frame
             try:
-                cam_to_base_transform = self.tf_buffer.lookup_transform("base_link", "camera_color_frame", rclpy.time.Time(), rclpy.time.Duration(seconds=1))  # replace "camera_frame" with actual camera frame name.
+                cam_to_base_transform = self.tf_buffer.lookup_transform("base_link", "camera_color_frame", rclpy.time.Time(), rclpy.time.Duration(seconds=1))
                 transformed_pose = tf2_geometry_msgs.do_transform_pose(self.object_pose, cam_to_base_transform)
                 transformed_pose.position.z = 0.0
                 transformed_pose.orientation = Quaternion()
