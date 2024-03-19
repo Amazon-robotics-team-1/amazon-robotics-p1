@@ -81,8 +81,8 @@ def launch_setup(context, *args, **kwargs):
 
     # ros2_control using FakeSystem as hardware
     ros2_controllers_path = os.path.join(
-        get_package_share_directory("kinova_gen3_7dof_robotiq_2f_85_moveit_config"),
-        "config",
+        get_package_share_directory("arm_mobility"),
+        "launch",
         "ros2_controllers.yaml",
     )
     ros2_control_node = Node(

@@ -10,7 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(moveit_task_constructor_core REQUIRED)
 find_package(rclcpp REQUIRED)
 
-add_executable(mtc_node src/mtc_node.cpp)
+add_executable(mtc_node src/mtc_node.cpp src/pick_place_task.cpp)
 target_include_directories(mtc_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
