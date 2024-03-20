@@ -113,6 +113,7 @@ class ImageProcessor(Node):
                 cam_to_base_transform = self.tf_buffer.lookup_transform("base_link", "camera_color_frame", rclpy.time.Time(), rclpy.time.Duration(seconds=1))
                 transformed_pose = tf2_geometry_msgs.do_transform_pose(self.object_pose, cam_to_base_transform)
                 transformed_pose.position.z = 0.0
+                transformed_pose.position.x -= 0.02
                 transformed_pose.orientation = Quaternion()
                 # transformed_pose = Pose()
                 self.object_pose_publisher.publish(transformed_pose)

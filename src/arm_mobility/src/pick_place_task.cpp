@@ -342,8 +342,18 @@ bool PickPlaceTask::init(const rclcpp::Node::SharedPtr& node) {
      *****************************************************/
     {
         auto stage = std::make_unique<stages::MoveTo>("move home", sampling_planner);
+        const std::map<std::string, double> final_pose = {
+            {"joint_1", -0.0180993754003973},
+            {"joint_2", -0.07014020626163475},
+            {"joint_3", -3.132451619464205},
+            {"joint_4", -2.2288977869315385},
+            {"joint_5", 0.00573852490129445},
+            {"joint_6", -0.9132400157333942},
+            {"joint_7", 1.5578977055292613}
+        };
         stage->properties().configureInitFrom(Stage::PARENT, { "group" });
-        stage->setGoal("home");
+        // stage->setGoal("home");
+        stage->setGoal(final_pose);
         stage->restrictDirection(stages::MoveTo::FORWARD);
         t.add(std::move(stage));
     }
