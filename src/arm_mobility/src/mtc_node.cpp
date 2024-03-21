@@ -13,7 +13,7 @@ void objectPositionCallback(const geometry_msgs::msg::Pose::SharedPtr msg) {
     received_object_pose = *msg; 
     is_pose_received = true; 
   } else { 
-    RCLCPP_INFO(LOGGER, "Error receiving pose");
+    RCLCPP_INFO(LOGGER, "Pose received. Ignoring objectPositionCallback.");
   }
 }
 
