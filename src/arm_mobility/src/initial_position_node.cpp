@@ -1,3 +1,6 @@
+#include <string>
+#include <unordered_map>
+
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/joint_state.hpp"
 #include "trajectory_msgs/msg/joint_trajectory.hpp"
@@ -21,23 +24,31 @@ class JointStateToTrajectoryPublisher : public rclcpp::Node {
         fixed_trajectory_msg_.points.resize(1);
         fixed_trajectory_msg_.points[0].positions = {-0.0180993754003973, -0.07014020626163475, -3.132451619464205, -2.2288977869315385, 0.00573852490129445, -0.9132400157333942, 1.5578977055292613};
         fixed_trajectory_msg_.points[0].time_from_start = rclcpp::Duration::from_seconds(4);
-        attempts_ = 0;
+
+        fixed_joint_map_ = {
+            {"joint_1", -0.0180993754003973},
+            {"joint_2", -0.07014020626163475},
+            {"joint_3", -3.132451619464205},
+            {"joint_4", -2.2288977869315385},
+            {"joint_5", 0.00573852490129445},
+            {"joint_6", -0.9132400157333942},
+            {"joint_7", 1.5578977055292613},
+        };
 
         // Create a timer for publishing the fixed trajectory message
         timer_ = this->create_wall_timer(
-            std::chrono::seconds(2), // Publish every 0.5 seconds
+            std::chrono::seconds(2), // Publish every 2 seconds
             std::bind(&JointStateToTrajectoryPublisher::publishFixedTrajectory, this));
     }
 
   private:
     void jointStateCallback(const sensor_msgs::msg::JointState::SharedPtr msg) {
         // Check if the received joint positions match the fixed trajectory
-        if (isMatchingFixedTrajectory(msg) || attempts_ > 1000) {  // adjust max attempts as necessary.
-            RCLCPP_INFO(LOGGER, "Received joint positions match the fixed trajectory. Quitting...");
+        if (isMatchingFixedTrajectory(msg)) {
+            RCLCPP_INFO(LOGGER, "Robot has successfully reached the initial pose.");
             rclcpp::shutdown();
             return;
         }
-        attempts_++;
     }
 
     void publishFixedTrajectory() {
@@ -49,16 +60,14 @@ class JointStateToTrajectoryPublisher : public rclcpp::Node {
         // Define tolerance for deviation
         const double tolerance = 0.01; // Adjust as needed
 
-        // Check if the sizes match
-        if (msg->position.size() != fixed_trajectory_msg_.joint_names.size()) {
-            return false; // Size mismatch
-        }
-
         // Compare each joint position with the corresponding position in the fixed trajectory
         for (size_t i = 0; i < msg->position.size(); ++i) {
             // Check if the absolute difference between joint positions exceeds tolerance
-            if (std::abs(msg->position[i] - fixed_trajectory_msg_.points[0].positions[i]) > tolerance) {
-                return false; // Position mismatch beyond tolerance
+            std::string current_joint = msg->name[i];
+            if (fixed_joint_map_.find(current_joint) != fixed_joint_map_.end()) {
+                if (std::abs(msg->position[i] - fixed_joint_map_[current_joint] > tolerance)) {
+                    return false;
+                }
             }
         }
 
@@ -69,7 +78,7 @@ class JointStateToTrajectoryPublisher : public rclcpp::Node {
     rclcpp::Publisher<trajectory_msgs::msg::JointTrajectory>::SharedPtr joint_trajectory_publisher_;
     trajectory_msgs::msg::JointTrajectory fixed_trajectory_msg_;
     rclcpp::TimerBase::SharedPtr timer_;
-    int attempts_;
+    std::unordered_map<std::string, double> fixed_joint_map_;
 };
 
 int main(int argc, char *argv[]) {
