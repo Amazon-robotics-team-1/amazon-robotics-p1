@@ -60,7 +60,7 @@ After sourcing, run the `robot_bringup.launch.py` launch file from the `arm_mobi
 ros2 launch arm_mobility robot_bringup.launch.py
 ```
 
-Optionally, run `initial_position_node` in another terminal to bring the robot to a predefined initial pose, and terminate when it is done:
+Optionally, run `initial_position_node` in another terminal to bring the robot to a predefined initial pose. The node should terminate when the robot is at the pose:
 ```
 ros2 run arm_mobility initial_position_node
 ```
