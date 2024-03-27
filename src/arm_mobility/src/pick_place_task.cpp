@@ -272,7 +272,8 @@ bool PickPlaceTask::init(const rclcpp::Node::SharedPtr& node) {
             // Set target pose
             geometry_msgs::msg::PoseStamped p;
             p.header.frame_id = "base_link";
-            p.pose.position.x = -0.4;
+            p.pose.position.x = -0.7;
+            p.pose.position.z = 0.02;
             p.pose.orientation.w = 1.0;
             //  p.pose = vectorToPose(params.place_pose);
             //  p.pose.position.z += 0.5 * params.object_dimensions[0] + params.place_surface_offset;
