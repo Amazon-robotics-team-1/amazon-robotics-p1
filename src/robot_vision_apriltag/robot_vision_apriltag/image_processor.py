@@ -33,6 +33,7 @@ class ImageProcessor(Node):
         self.object_pose = None
         self.tf_buffer = Buffer(rclpy.time.Duration(seconds=1))
         self.tf_listener = TransformListener(self.tf_buffer, self)
+        self.declare_parameter('tag_family', 'tag36h11')
                 
     def color_callback(self, msg):
         if not self.camera_info_received or not self.camera_info:
@@ -44,8 +45,9 @@ class ImageProcessor(Node):
             return
 
         cv_image = None
+        apriltag_family = self.get_parameter('tag_family').get_parameter_value().string_value
         #families= 'tagStandard41h12', tag36h11
-        at_detector = Detector(families='tag36h11', 
+        at_detector = Detector(families=apriltag_family, 
                        nthreads=1,
                        quad_decimate=1.0,
                        quad_sigma=0.0,
