@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Helping Hand</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div>
+        <a href="/">Return to Home Page</a>
+    </div>
+    <div class="res-cont">
+        {% if result  == 0 %}
+            <p class="results" id="res-success"> Success!!!</p>
+        {% else %}
+            <p class="results" id="res-failure">Failure: Couldn't run script</p>
+        {% endif %}
+    </div>
+</body>
+</html>
