@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.start-btn {
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 40px;
+    cursor: pointer;
+    background-color: #0BDA51;
+    transition-duration: 0.5s;
+}
+
+.close-btn {
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 40px;
+    cursor: pointer;
+    background-color: #da0b0b;
+    transition-duration: 0.5s;
+}
+
+.start-btn:hover {
+    background-color: #ffffff;
+    color: #0BDA51;
+}
+
+.out-cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.inner-cont {
+    display: flex;
+    flex-direction: column;
+}
+
+#res-div {
+text-align: center;
+}
+
+#res-success {
+    color: #0BDA51;
+    font-size: 40px;
+}
+
+#res-failure {
+    color: #da0b0b;
+    font-size: 40px;
+}

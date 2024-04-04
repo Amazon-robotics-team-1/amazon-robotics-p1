@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Helping Hand</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div>
+        <a href="/">Return to Home Page</a>
+    </div>
+    <div class="out-cont">
+        <div class="inner-cont">
+            <div id="res-div">
+                {% if result  == 0 %}
+                    <p class="results" id="res-success"> Success!!!</p>
+                {% else %}
+                    <p class="results" id="res-failure">Failure: Couldn't run script</p>
+                {% endif %}
+            </div>
+            <div id="form-div">
+                <form action="/close-route" method="post">
+                    <button type="submit" class="close-btn">End Operation</button>
+                </form>
+            </div>     
+        </div>
+    </div>
+</body>
+</html>
