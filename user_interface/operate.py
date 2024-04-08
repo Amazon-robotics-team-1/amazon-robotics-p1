@@ -1,6 +1,6 @@
 # Webpage for the user interface.
 
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, request, url_for
 from run_script import run_script
 
 
@@ -15,7 +15,8 @@ def index():
 @app.route('/script', methods=['POST'])
 def script(result=None):
     # Execute script to open terminal windows
-    result = run_script(script_path=RUN_PICK_PLACE_SCRIPT)
+    user_input = request.form['user-input']
+    result = run_script(script_path=RUN_PICK_PLACE_SCRIPT, user_input=user_input)
     return render_template('results.html', result=result)
 
 @app.route('/close-route', methods=['POST'])
