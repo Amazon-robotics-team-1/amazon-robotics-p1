@@ -3,7 +3,7 @@
 import subprocess
 
 
-def run_script(script_path: str, user_input=None) -> int:
+def run_script(script_path: str, user_input="tag36h11") -> int:
     """
     Function to open a new terminal and run a script within it.
 
