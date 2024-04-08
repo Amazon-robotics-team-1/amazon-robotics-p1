@@ -5,7 +5,17 @@
     height: 100vh;
 }
 
-.start-btn {
+.form-cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inner-form {
+    margin: 10px;
+}
+
+#start-btn {
     padding: 15px 30px;
     border-radius: 8px;
     text-align: center;
@@ -15,7 +25,17 @@
     transition-duration: 0.5s;
 }
 
-.close-btn {
+#start-btn:hover {
+    background-color: #ffffff;
+    color: #0BDA51;
+}
+
+#user-input {
+    font-size: 20px;
+    padding: 8px 15px;
+}
+
+#close-btn {
     padding: 15px 30px;
     border-radius: 8px;
     text-align: center;
@@ -23,11 +43,6 @@
     cursor: pointer;
     background-color: #da0b0b;
     transition-duration: 0.5s;
-}
-
-.start-btn:hover {
-    background-color: #ffffff;
-    color: #0BDA51;
 }
 
 .out-cont {
@@ -43,7 +58,7 @@
 }
 
 #res-div {
-text-align: center;
+    text-align: center;
 }
 
 #res-success {
