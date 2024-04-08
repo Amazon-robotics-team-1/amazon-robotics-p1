@@ -4,8 +4,8 @@ from flask import Flask, render_template, redirect, request, url_for
 from run_script import run_script
 
 
-RUN_PICK_PLACE_SCRIPT = "/home/senior-project/Desktop/amazon-robotics-p1/run_pick_place.sh"
-CLOSE_PROGRAM_SCRIPT = "/home/senior-project/Desktop/amazon-robotics-p1/close_program.sh"
+RUN_PICK_PLACE_SCRIPT = "~/amazon-robotics-p1/run_pick_place.sh"
+CLOSE_PROGRAM_SCRIPT = "~/amazon-robotics-p1/close_program.sh"
 app = Flask(__name__)
 
 @app.route('/')
