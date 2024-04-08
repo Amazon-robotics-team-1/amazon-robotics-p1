@@ -117,8 +117,7 @@ To use the optional UI, follow these steps:
 
 1. Install the required dependencies by running the command below:
 ```
-pip install -r requiremen
-ts.txt
+pip install -r requirements.txt
 ```
 
 2. Run the Flask application:
