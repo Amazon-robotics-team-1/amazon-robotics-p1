@@ -25,6 +25,7 @@ The code in this repository was written for the **Kinova Gen3-7dof Robot Arm** w
 | MoveIt2! Tutorials | See setup instructions [here](https://moveit.picknik.ai/main/doc/tutorials/getting_started/getting_started.html). Follow the "Getting Started" guide to set up MoveIt.|
 | Kinova Robotics ROS2_Kortex | See installation instructions [here](https://github.com/Kinovarobotics/ros2_kortex). Follow the instructions for "7dof arm".
 | Apriltags (Python Bindings) | See installation instructions [here](https://github.com/duckietown/lib-dt-apriltags#installation).
+| Xdotool | See installation instructions [here](https://github.com/jordansissel/xdotool).|
 
 
 
@@ -106,6 +107,25 @@ ros2 topic pub --once /object_3d_pose geometry_msgs/msg/Pose '{position: {x: 0.3
 ```
 
 At this point, RViz is loaded and should show the state of the robot and the medicine bottle at the pose specified. Select any of the planned solutions for `pick_place_task` and execute.
+
+
+### Optional UI with Flask
+This section includes an optional user interface (UI) powered by Flask, allowing users to interact with the robot through a web-based interface.
+
+#### Setup Instructions
+To use the optional UI, follow these steps:
+
+1. Install the required dependencies by running the command below:
+```
+pip install -r requirements.txt
+```
+
+2. Run the Flask application:
+```
+flask --app user_interface/operate run
+```
+
+3. Open your web browser and navigate to 'http://localhost:5000' to access the UI.
 
 
 ## References
