@@ -9,8 +9,13 @@ CLOSE_PROGRAM_SCRIPT = "~/amazon-robotics-p1/close_program.sh"
 app = Flask(__name__)
 
 @app.route('/')
+@app.route('/signin')
 def index():
     return render_template('index.html')
+
+@app.route('/start', methods=['GET', 'POST'])
+def start():
+    return render_template('start.html')
 
 @app.route('/script', methods=['POST'])
 def script(result=None):
@@ -23,7 +28,7 @@ def script(result=None):
 def close():
     # Execute script to close terminal windows
     run_script(script_path=CLOSE_PROGRAM_SCRIPT)
-    return redirect(url_for("index"))
+    return redirect(url_for("start"))
 
 if __name__ == '__main__':
     app.run(debug=True)
